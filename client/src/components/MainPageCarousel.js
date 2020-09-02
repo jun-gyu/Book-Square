@@ -62,7 +62,7 @@ const MainPageCarousel = () => {
     <MainPageCarouselWrapper>
       <Carousel autoplay>
         <div className="firstCarousel carouselList">
-          <img src={`${firstCarousel}`} />
+          <img src={`${firstCarousel}`} alt="소통과 공감" />
           <section>
             <strong>소통과 공감</strong>
             <span>
@@ -80,10 +80,10 @@ const MainPageCarousel = () => {
               독서를 통해 더 나은 삶을 살아갈 수 있기를 희망합니다.
             </span>
           </section>
-          <img src={`${secondCarousel}`} />
+          <img src={`${secondCarousel}`} alt="마음을 비우다" />
         </div>
         <div className="thirdCarousel carouselList">
-          <img src={`${thirdCarousel}`} />
+          <img src={`${thirdCarousel}`} alt="지혜와 나눔" />
           <section>
             <strong>지혜와 나눔</strong>
             <span>

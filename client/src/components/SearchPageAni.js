@@ -381,25 +381,25 @@ const SearchPageAni = () => {
         <div className="innerContainer" data-animated={dataAnimated} data-stage={dataStage}>
           <div className="searchBox">어떤 책을 읽으셨나요?</div>
           <div className="content">
-            <img className="sources" src={`${contentMainIMG}`} />
+            <img className="sources" src={`${contentMainIMG}`} alt="컨텐츠 이미지"/>
             <div className="results">
               <div className="result">
                 <div className="resultImageBox">
-                  <img src={`${searchPageReading}`} />
+                  <img src={`${searchPageReading}`} alt="책 읽기"/>
                 </div>
                 <div className="mainTitle">Intimacy with books</div>
                 <div className="discription">Let's look into the wisdom in the book.</div>
               </div>
               <div className="result">
                 <div className="resultImageBox">
-                  <img src={`${searchPageGoalIMG}`} />
+                  <img src={`${searchPageGoalIMG}`} alt="목표 설정"/>
                 </div>
                 <div className="mainTitle">Goal &#38; challenge</div>
                 <div className="discription">Try setting your own goals and challenge</div>
               </div>
               <div className="result">
                 <div className="resultImageBox">
-                  <img src={`${searchPageDiscussion}`} />
+                  <img src={`${searchPageDiscussion}`} alt="토론"/>
                 </div>
                 <div className="mainTitle">Share thought with others</div>
                 <div className="discription">Knowledge doubles as it is shared.</div>
