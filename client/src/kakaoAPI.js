@@ -1,0 +1,1 @@
+export const KAKAO_API_KEY = "481fee0ce9e377fd48576b5c7333fb2f";

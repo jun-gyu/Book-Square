@@ -7,7 +7,7 @@ import MyReport from './pages/MyReport';
 import MyPage from './pages/MyPage';
 import SignIn from './pages/SignIn';
 import SignUp from "./pages/SignUp";
-
+// console.log(process.env.REACT_APP_BOOKSEARCH_API_KEY);
 // import "antd/dist/antd.css";
 
 const App = () => {
