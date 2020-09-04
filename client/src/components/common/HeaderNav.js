@@ -85,7 +85,7 @@ const HeaderNavWrapper = styled.div`
     width: 15%;
     height: 100%;
     & > a {
-      font-size: 16px;
+      font-size: 18px;
     }
     & > a + a {
       margin-left: 30px;
