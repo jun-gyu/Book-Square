@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 
 app.use(passport.initialize());
 
+
 // 몽고DB 설정 파트
 const db = require("./config/keys").mongoURI;
 
