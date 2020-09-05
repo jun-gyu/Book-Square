@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import { isEmail, isPassword } from '../../authCheck';
 
 // signup / signin 컴포넌트 렌더링
 
@@ -135,14 +136,14 @@ const AuthForm = ({ type }) => {
 
   const text = textMap[type];
 
-  const [passwordCheck, setPasswordCheck] = useState('');
+  const [passwordCheck, setPasswordCheck] = useState("");
   const [passwordError, setPasswordError] = useState(false);
 
-  const [email, onChangeEmail] = useInput("");
   const [name, onChangeName] = useInput("");
+  const [email, onChangeEmail] = useInput("");
   const [password, onChangePassword] = useInput("");
 
-  const onChangeCheck = useCallback((e) => {
+  const onChangePasswordCheck = useCallback((e) => {
     setPasswordError(e.target.value !== password);
     setPasswordCheck(e.target.value);
   }, [password]);
@@ -152,10 +153,16 @@ const AuthForm = ({ type }) => {
       <section>
         <div className="greetings">
           <strong>{text === "Sign Up" ? "Welcome!" : "Welcome Back!"}</strong>
-          <p>{text === "Sign Up" ? "To keep connected with us please login with your personal info" : "Enter your personal details and start journey with us"}</p>
+          <p>
+            {text === "Sign Up"
+              ? "To keep connected with us please login with your personal info"
+              : "Enter your personal details and start journey with us"}
+          </p>
         </div>
         <div className="formSection">
-          <strong>{text === "Sign Up" ? "Create Account" : "Login Account"}</strong>
+          <strong>
+            {text === "Sign Up" ? "Create Account" : "Login Account"}
+          </strong>
           <form>
             {text === "Sign Up" && (
               <InputStyled
@@ -192,14 +199,11 @@ const AuthForm = ({ type }) => {
                 type="password"
                 value={passwordCheck}
                 required
-                onChange={onChangeCheck}
+                onChange={onChangePasswordCheck}
               />
-              
             )}
-            {passwordError && (
-              <span> 비밀번호가 일치하지 않습니다.</span>
-            )}
-            <Button text={text}/>
+            {passwordError && <span> 비밀번호가 일치하지 않습니다.</span>}
+            <Button text={text} />
           </form>
         </div>
       </section>
