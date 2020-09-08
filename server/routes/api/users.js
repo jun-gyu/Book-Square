@@ -15,13 +15,11 @@ router.get("/", (req, res) => {
 router.post("/signUp", (req, res) => {
   User.findOne({ email: req.body.email }).then((user) => {
     if (user) {
-      return res.status(400).json({
-        email: "해당 이메일을 가진 사용자가 존재합니다.",
-      });
+      return res.status(409).send(); // conflict
     } else {
       const newUser = new User({
-        email: req.body.email,
         name: req.body.name,
+        email: req.body.email,
         password: req.body.password,
       });
 
@@ -37,6 +35,7 @@ router.post("/signUp", (req, res) => {
             .catch((err) => console.log(err));
         });
       });
+      return res.status(200).send();
     }
   });
 });
@@ -48,8 +47,7 @@ router.post("/signIn", (req, res) => {
   // email로 회원 찾기
   User.findOne({ email }).then((user) => {
     if (!user) {
-      errors.email = "해당하는 회원이 존재하지 않습니다.";
-      return res.status(400).json(errors);
+      return res.status(401).send(); // Unauthorized
     }
 
     // 패스워드 확인
@@ -70,14 +68,14 @@ router.post("/signIn", (req, res) => {
           { expiresIn: 3600 },
           (err, token) => {
             res.json({
-              success: true,
+              name: user.name,
+              email: user.email,
               token: "Bearer " + token,
             });
           }
         );
       } else {
-        errors.password = "패스워드가 일치하지 않습니다.";
-        return res.status(400).json(errors);
+        return res.status(401).send(); // 잘못된 인증정보
       }
     });
   });

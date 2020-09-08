@@ -2,7 +2,6 @@ import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import Button from "./Button";
-import { isEmail, isPassword } from '../../authCheck';
 
 // signup / signin 컴포넌트 렌더링
 
@@ -123,31 +122,8 @@ const textMap = {
   SignUp: "Sign Up",
 };
 
-// 커스텀 훅
-export const useInput = (initValue = null) => {
-  const [value, setter] = useState(initValue);
-  const handler = useCallback((e) => {
-    setter(e.target.value);
-  }, []);
-  return [value, handler];
-};
-
-const AuthForm = ({ type }) => {
-
+const AuthForm = ({ type, form, onChangeInputHandler, onSubmitFormHandler, error }) => {
   const text = textMap[type];
-
-  const [passwordCheck, setPasswordCheck] = useState("");
-  const [passwordError, setPasswordError] = useState(false);
-
-  const [name, onChangeName] = useInput("");
-  const [email, onChangeEmail] = useInput("");
-  const [password, onChangePassword] = useInput("");
-
-  const onChangePasswordCheck = useCallback((e) => {
-    setPasswordError(e.target.value !== password);
-    setPasswordCheck(e.target.value);
-  }, [password]);
-
   return (
     <AuthFormWrapper>
       <section>
@@ -163,46 +139,42 @@ const AuthForm = ({ type }) => {
           <strong>
             {text === "Sign Up" ? "Create Account" : "Login Account"}
           </strong>
-          <form>
+          <form onSubmit={onSubmitFormHandler}>
             {text === "Sign Up" && (
               <InputStyled
-                autocomplete
-                name="userName"
+                name="name"
                 placeholder="Name"
-                value={name}
+                value={form.name}
                 required
-                onChange={onChangeName}
+                onChange={onChangeInputHandler}
               />
             )}
             <InputStyled
-              autocomplete
-              name="userEmail"
+              name="email"
               placeholder="Email"
-              value={email}
+              value={form.email}
               required
-              onChange={onChangeEmail}
+              onChange={onChangeInputHandler}
             />
             <InputStyled
-              autocomplete
-              name="passWord"
-              placeholder="PassWord"
+              name="password"
+              placeholder="password"
               type="password"
-              value={password}
+              value={form.password}
               required
-              onChange={onChangePassword}
+              onChange={onChangeInputHandler}
             />
             {text === "Sign Up" && (
               <InputStyled
-                autocomplete
-                name="passWordConfirm"
-                placeholder="PassWord Check"
+                name="passwordCheck"
+                placeholder="password Check"
                 type="password"
-                value={passwordCheck}
+                value={form.passwordCheck}
                 required
-                onChange={onChangePasswordCheck}
+                onChange={onChangeInputHandler}
               />
             )}
-            {passwordError && <span> 비밀번호가 일치하지 않습니다.</span>}
+            {error && <span>{error}</span>}
             <Button text={text} />
           </form>
         </div>

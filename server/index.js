@@ -1,8 +1,9 @@
 // 모듈 로드
-var express = require("express");
-var mongoose = require("mongoose");
-var bodyParser = require("body-parser");
-var passport = require("passport");
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const cors = require("cors");
 
 // 초기화 파트
 const app = express();
@@ -11,6 +12,14 @@ const users = require("./routes/api/users");
 // 미들웨어 설정 파트
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(
+  cors({
+    origin: [`http://localhost:${process.env.PORT}`, "http://localhost:3000"],
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 
 app.use(passport.initialize());
 
@@ -27,9 +36,10 @@ mongoose
 require("./config/passport")(passport);
 
 // 라우팅 파트
-app.use("/api/users", users);
+app.use("/users", users);
 
 // 서버 실행
-app.listen(5000, (req, res) => {
+app.listen(3002, (req, res) => {
   console.log("서버 실행중..");
 });
+  
