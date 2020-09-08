@@ -8,6 +8,8 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import createSagaMiddleware from "redux-saga";
 import rootReducer, { rootSaga } from "./modules";
 import { Provider } from "react-redux";
+import { loggedUserInfo } from './modules/user';
+import axios from 'axios';
 
 // 사가 미들웨어 만들기
 const sagaMiddleware = createSagaMiddleware();
@@ -17,8 +19,26 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
 
+function loadUser(){
+  try {
+    const user = JSON.parse(localStorage.getItem('userToken'));
+    if(!user) return;
+    // store.dispatch(tempSetUser(user));
+    store.dispatch(loggedUserInfo(user));
+    // axios.get("http://localhost:3002/users/loggedInUserInfo", {
+    //   headers: {
+    //     Authorization: user.token
+    //   },
+    // })
+    //   .then(res =>  )
+  }catch(err) {
+    console.log('localStorage is not working');
+  }
+}
+
 // 루트 사가를 실행해준다. 주의할점!!! 스토어 생성이 된 다음에 실행해주어야 한다.
 sagaMiddleware.run(rootSaga);
+loadUser();
 
 ReactDOM.render(
   <Provider store={store}>
