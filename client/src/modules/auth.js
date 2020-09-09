@@ -9,6 +9,7 @@ const INITIALIZE_FORM = 'auth/INITIALIZE_FORM';
 
 const [SIGNIN, SIGNIN_SUCCESS, SIGNIN_FAILURE] = createRequestActionTypes('auth/SIGNIN');
 const [SIGNUP, SIGNUP_SUCCESS, SIGNUP_FAILURE] = createRequestActionTypes('auth/SIGNUP');
+const [SIGNOUT, SIGNOUT_SUCCESS, SIGNOUT_FAILURE] = createRequestActionTypes('auth/SIGNOUT');
 
 export const changeField = createAction(
   CHANGE_FIELD,
@@ -35,6 +36,8 @@ export const signIn = createAction(SIGNIN, ({ email, password }) => ({
   email,
   password,
 }));
+
+export const signOut = createAction(SIGNOUT);
 
 // saga 생성
 const signUpSaga = createRequestSaga(SIGNUP, authAPI.signUp);
@@ -82,7 +85,7 @@ const auth = handleActions(
     // 회원가입 실패
     [SIGNUP_FAILURE]: (state, { payload: error }) => ({
       ...state,
-      authError: error ,
+      authError: error,
     }),
     // 로그인 성공
     [SIGNIN_SUCCESS]: (state, { payload: auth }) => ({
@@ -94,6 +97,11 @@ const auth = handleActions(
     [SIGNIN_FAILURE]: (state, { payload: error }) => ({
       ...state,
       authError: error,
+    }),
+    [SIGNOUT]: (state, { payload: auth }) => ({
+      ...state,
+      auth: auth,
+      authError: null,
     }),
   },
   initialState

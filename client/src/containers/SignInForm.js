@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeField, initializeForm, signIn } from "../modules/auth";
 import AuthForm from "../components/common/AuthForm";
 import { withRouter } from 'react-router-dom';
+import { loggedUserInfo } from "../modules/user";
 
 const SignInForm = ({ history }) => {
   const [error, setError] = useState(null);
@@ -36,15 +37,16 @@ const SignInForm = ({ history }) => {
   useEffect(() => {
     if (authError) {
       console.log("로그인 에러", authError);
-      setError('로그인 실패');
+      setError("로그인 실패");
       return;
     }
     if (auth) {
       console.log("로그인 성공", auth);
-      localStorage.setItem("userToken", JSON.stringify(auth));
-      history.push('/')
+      localStorage.setItem('user', JSON.stringify(auth));
+      dispatch(loggedUserInfo(auth));
+      history.push("/");
     }
-  }, [auth, authError, history]);
+  }, [auth, authError, history, dispatch]);
 
   // 컴포넌트 첫 렌더링 될 때 form 초기화
   useEffect(() => {
