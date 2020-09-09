@@ -11,5 +11,9 @@ export const check = (token) =>
     headers: {
       Authorization: token
     },
-  })
-  .then(res => console.log('logged',res))
+  });
+
+export const signOut = () => 
+  axios.post("http://localhost:3002/users/signOut")
+  .then(res => console.log(res
+    ))

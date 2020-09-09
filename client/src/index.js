@@ -9,7 +9,6 @@ import createSagaMiddleware from "redux-saga";
 import rootReducer, { rootSaga } from "./modules";
 import { Provider } from "react-redux";
 import { loggedUserInfo } from './modules/user';
-import axios from 'axios';
 
 // 사가 미들웨어 만들기
 const sagaMiddleware = createSagaMiddleware();
@@ -21,16 +20,9 @@ const store = createStore(
 
 function loadUser(){
   try {
-    const user = JSON.parse(localStorage.getItem('userToken'));
+    const user = JSON.parse(localStorage.getItem('user'));
     if(!user) return;
-    // store.dispatch(tempSetUser(user));
     store.dispatch(loggedUserInfo(user));
-    // axios.get("http://localhost:3002/users/loggedInUserInfo", {
-    //   headers: {
-    //     Authorization: user.token
-    //   },
-    // })
-    //   .then(res =>  )
   }catch(err) {
     console.log('localStorage is not working');
   }

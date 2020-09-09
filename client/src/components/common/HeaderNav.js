@@ -1,7 +1,10 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import logoIMG from '../../images/logo.png';
+import { loggedUserInfo } from "../../modules/user";
+import { signOut } from "../../modules/auth";
 
 const HeaderNavWrapper = styled.div`
   width: 100%;
@@ -103,9 +106,19 @@ const HeaderNavWrapper = styled.div`
 `;
 
 const HeaderNav = () => {
+  const dispatch = useDispatch();
+  const { loggedUser } = useSelector(({ loggedUser }) => ({ loggedUser: loggedUser.user }));
+
+  const onSignOutHandler = () => {
+    dispatch(loggedUserInfo(null));
+    dispatch(signOut(null));
+    localStorage.removeItem('user');
+  }
   return (
     <HeaderNavWrapper>
-      <h1 className="logoIMG"><Link to="/">BookSquare</Link></h1>
+      <h1 className="logoIMG">
+        <Link to="/">BookSquare</Link>
+      </h1>
       <section className="navLinkSection">
         <Link to="/SearchBooks">검색</Link>
         <Link to="/MyLibrary">내 서재</Link>
@@ -114,8 +127,14 @@ const HeaderNav = () => {
         <Link to="/MyPage">마이페이지</Link>
       </section>
       <section className="authSection">
-        <Link to="/SignIn">Sign In</Link>
-        <Link to="/SignUp">Sign Up</Link>
+        {loggedUser ? (
+          <Link to="/" onClick={() => onSignOutHandler()}>Sign Out</Link>
+        ) : (
+          <>
+            <Link to="/SignIn">Sign In</Link>
+            <Link to="/SignUp">Sign Up</Link>
+          </>
+        )}
       </section>
     </HeaderNavWrapper>
   );
