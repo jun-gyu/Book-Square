@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const cors = require("cors");
+const { port } = require('./config/keys');
 
 // 초기화 파트
 const app = express();
@@ -15,7 +16,7 @@ app.use(bodyParser.json());
 
 app.use(
   cors({
-    origin: [`http://localhost:${process.env.PORT}`, "http://localhost:3000"],
+    origin: [`http://localhost:${port}`, "http://localhost:3000"],
     methods: ["GET", "POST"],
     credentials: true,
   })
@@ -39,7 +40,7 @@ require("./config/passport")(passport);
 app.use("/users", users);
 
 // 서버 실행
-app.listen(3002, (req, res) => {
+app.listen(port, (req, res) => {
   console.log("서버 실행중..");
 });
   
