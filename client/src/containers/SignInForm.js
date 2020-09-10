@@ -10,10 +10,11 @@ const SignInForm = ({ history }) => {
   const [error, setError] = useState(null);
 
   const dispatch = useDispatch();
-  const { form, auth, authError } = useSelector(({ auth }) => ({
+  const { form, auth, authError, signInSuccess } = useSelector(({ auth }) => ({
     form: auth.signIn,
     auth: auth.auth,
     authError: auth.authError,
+    signInSuccess: auth.signInSuccess,
   }));
 
   const onChangeInputHandler = (e) => {
@@ -40,7 +41,7 @@ const SignInForm = ({ history }) => {
       setError("로그인 실패");
       return;
     }
-    if (auth) {
+    if (signInSuccess) {
       console.log("로그인 성공", auth);
       localStorage.setItem('user', JSON.stringify(auth));
       dispatch(loggedUserInfo(auth));

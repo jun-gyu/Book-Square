@@ -8,10 +8,11 @@ import DiscussionRoom from './pages/DiscussionRoom';
 import MyPage from './pages/MyPage';
 import SignIn from './pages/SignIn';
 import SignUp from "./pages/SignUp";
-// console.log(process.env.REACT_APP_BOOKSEARCH_API_KEY);
-// import "antd/dist/antd.css";
+import ModalBg from "./components/ModalBG";
+import { useSelector } from "react-redux";
 
 const App = () => {
+  const modalLoading = useSelector((state) => state.modalLoading.bool);
   return (
     <div className="App">
       <Switch>
@@ -24,6 +25,7 @@ const App = () => {
         <Route component={SignIn} path={"/SignIn"} />
         <Route component={SignUp} path={"/SignUp"} />
       </Switch>
+      {modalLoading && <ModalBg />}
     </div>
   );
 }
