@@ -1,11 +1,11 @@
 import React from 'react';
 import MainTemplate from '../components/MainTemplate';
-// import MyLibraryForm from "../containers/MyLibraryForm";
+import MyLibraryForm from "../containers/MyLibraryForm";
 
 const MyLibrary = () => {
   return (
     <MainTemplate>
-      {/* <MyLibraryForm/> */}
+      <MyLibraryForm/>
     </MainTemplate>
   );
 };
