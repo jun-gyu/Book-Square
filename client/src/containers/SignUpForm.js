@@ -56,7 +56,7 @@ const SignUpForm = ({ history }) => {
       console.log("회원가입 성공", auth);
       history.push('/signIn');
     }
-  }, [auth, authError]);
+  }, [auth, authError, history]);
 
   return (
     <AuthForm
