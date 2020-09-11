@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import styled from "styled-components";
 import MyBookList from "../components/MyBookList";
 import { v4 as uuidv4 } from "uuid";
@@ -6,7 +6,7 @@ import { bookListLoad } from "../lib/commonAPI";
 import { useDispatch, useSelector } from "react-redux";
 import { currentBookList } from "../modules/currentBookList";
 import { getAllBooks } from "../modules/getAllBooks";
-import myLibraryIMG from "../images/myLibraryIMG1.jpg";
+import myLibraryIMG from "../images/myLibraryIMG.jpg";
 
 const MyLibraryFormWrapper = styled.div`
   width: 100%;
@@ -85,14 +85,15 @@ const MyLibraryForm = () => {
     );
   };
 
-  return (
-    <MyLibraryFormWrapper>
-      {loggedUserCheck && myLibraryBookLists ? (
+  const renderOrDetails = useMemo(() => {
+    return (
+      loggedUserCheck && myLibraryBookLists ? (
         <>
           <section className="information">
             <span>{loggedUser.name}님의 서재</span>
             <strong>
-              내 서재에 총 {myLibraryBookLists ? myLibraryBookLists.length : 0}권의 책이 있습니다!
+              내 서재에 총 {myLibraryBookLists ? myLibraryBookLists.length : 0}
+              권의 책이 있습니다!
             </strong>
           </section>
           <section className="myBookLists">
@@ -107,13 +108,13 @@ const MyLibraryForm = () => {
         </>
       ) : loggedUser && !myLibraryBookLists ? (
         <span className="noBookMessage">책을 등록해주세요!</span>
-      ) : (
-        !loggedUser && (
-          <span className="plzSignInMessage">로그인을 해주세요.</span>
-        )
-      )}
-    </MyLibraryFormWrapper>
-  );
+      ) : !loggedUser && (
+        <span className="plzSignInMessage">로그인을 해주세요.</span>
+      )
+    );
+  }, [loggedUser, myLibraryBookLists, loggedUserCheck])
+
+  return <MyLibraryFormWrapper>{renderOrDetails}</MyLibraryFormWrapper>;
 };
 
 export default MyLibraryForm;
