@@ -7,42 +7,45 @@ import { useDispatch, useSelector } from "react-redux";
 import { currentBookList } from "../modules/currentBookList";
 import { getAllBooks } from "../modules/getAllBooks";
 import myLibraryIMG from "../images/myLibraryIMG.jpg";
+import { bookDelete } from "../lib/commonAPI";
+import { withRouter } from "react-router-dom";
 
 const MyLibraryFormWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow: hidden;
-  & > .information {
+  & > .myBookLists {
     background: url(${myLibraryIMG}) no-repeat 50% 100% / 110% 260%;
     width: 100%;
-    height: 400px;
-    padding: 50px;
+    height: 100%;
+    padding-top: 50px;
+    overflow-y: auto;
+    overflow-x: hidden;
     & > * {
-      display: block;
       color: #fff;
-      text-align: center;
+    }
+    & > div {
+      width: 100%;
+      margin: 70px 0;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
     }
     & > span {
+      display: block;
       font-size: 28px;
       font-weight: 700;
       letter-spacing: 2px;
+      text-align: center;
     }
     & > strong {
+      display: block;
       font-size: 24px;
       letter-spacing: 1px;
       margin-top: 15px;
+      text-align: center;
     }
-  }
-  & > .myBookLists {
-    text-align: left;
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100%;
-    height: 80%;
-    margin-top: -35px;
-    padding-top: 30px;
-    background: #fff;
-    border-radius: 35px 35px 0 0;
   }
   .noBookMessage,
   .plzSignInMessage {
@@ -54,26 +57,27 @@ const MyLibraryFormWrapper = styled.div`
   }
 `;
 
-const MyLibraryForm = () => {
+
+const MyLibraryForm = ({ history }) => {
   const dispatch = useDispatch();
 
   const [loggedUserCheck, setLoggedUserCheck] = useState(false);
+  const [myLibraryBookLists, setMyLibraryBookLists] = useState(null);
 
-  const loggedUser = useSelector(({ loggedUser }) => ({ loggedUser: loggedUser.user })).loggedUser;
-
-  const myLibraryBookLists = useSelector(
-    (state) => state.getAllBooks.getAllBooks
-  );
+  const loggedUser = useSelector(({ loggedUser }) => ({
+    loggedUser: loggedUser.user,
+  })).loggedUser;
 
   useEffect(() => {
-    console.log(loggedUser);
     loggedUser &&
-      bookListLoad()
-        .then((data) => dispatch(getAllBooks(data.data)))
-        .then((data) => setLoggedUserCheck(true));
+      bookListLoad().then((data) => {
+        dispatch(getAllBooks(data.data));
+        setMyLibraryBookLists(data.data);
+        setLoggedUserCheck(true);
+      });
   }, []);
 
-  const bookListClickHandler = (item) => {
+  const writeReportHandler = (item) => {
     dispatch(
       currentBookList({
         bookUuid: item.bookUuid,
@@ -83,38 +87,47 @@ const MyLibraryForm = () => {
         bookRate: item.bookRate,
       })
     );
+    history.push("/WriteReport");
   };
 
+  const deleteBookHandler = (currentDeleteBook) => {
+    const bookUuid = currentDeleteBook.bookUuid;
+    bookDelete({ bookUuid });
+    window.location.replace("/MyLibrary");
+  }
+
   const renderOrDetails = useMemo(() => {
-    return (
-      loggedUserCheck && myLibraryBookLists ? (
-        <>
-          <section className="information">
-            <span>{loggedUser.name}님의 서재</span>
-            <strong>
-              내 서재에 총 {myLibraryBookLists ? myLibraryBookLists.length : 0}
-              권의 책이 있습니다!
-            </strong>
-          </section>
-          <section className="myBookLists">
+
+    return loggedUserCheck && myLibraryBookLists ? (
+      <>
+        <section className="myBookLists">
+          <span>{loggedUser.name}님의 서재</span>
+          <strong>
+            내 서재에 총 {myLibraryBookLists ? myLibraryBookLists.length : 0}
+            권의 책이 있습니다!
+          </strong>
+          <div>
             {myLibraryBookLists.map((el) => (
               <MyBookList
                 myLibrary={el}
                 key={uuidv4()}
-                bookListClickHandler={bookListClickHandler}
+                writeReportHandler={writeReportHandler}
+                deleteBookHandler={deleteBookHandler}
               />
             ))}
-          </section>
-        </>
-      ) : loggedUser && !myLibraryBookLists ? (
-        <span className="noBookMessage">책을 등록해주세요!</span>
-      ) : !loggedUser && (
+          </div>
+        </section>
+      </>
+    ) : loggedUser && !myLibraryBookLists ? (
+      <span className="noBookMessage">책을 등록해주세요!</span>
+    ) : (
+      !loggedUser && (
         <span className="plzSignInMessage">로그인을 해주세요.</span>
       )
     );
-  }, [loggedUser, myLibraryBookLists, loggedUserCheck])
+  }, [loggedUser, myLibraryBookLists, loggedUserCheck]);
 
   return <MyLibraryFormWrapper>{renderOrDetails}</MyLibraryFormWrapper>;
 };
 
-export default MyLibraryForm;
+export default withRouter(MyLibraryForm);
