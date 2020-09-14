@@ -9,6 +9,7 @@ import MyPage from './pages/MyPage';
 import SignIn from './pages/SignIn';
 import SignUp from "./pages/SignUp";
 import ModalBg from "./components/ModalBG";
+import WriteReport from './pages/WriteReport';
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
         <Route component={SearchBooks} path={"/SearchBooks"} />
         <Route component={MyLibrary} path={"/MyLibrary"} />
         <Route component={MyReport} path={"/MyReport"} />
+        <Route component={WriteReport} path={"/WriteReport"} />
         <Route component={DiscussionRoom} path={"/DiscussionRoom"} />
         <Route component={MyPage} path={"/MyPage"} />
         <Route component={SignIn} path={"/SignIn"} />

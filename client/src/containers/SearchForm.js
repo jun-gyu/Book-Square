@@ -109,7 +109,7 @@ const SearchForm = () => {
   const kakaoBookFilterFunc = (data) => {
     for (let i = 0; i < data.length; i++) {
       data[i] = {
-        bookAuthor: data[i].authors[0],
+        bookAuthor: data[i].authors,
         bookContent: data[i].contents,
         bookImage: data[i].thumbnail,
         bookTitle: data[i].title,
