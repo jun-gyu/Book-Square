@@ -9,6 +9,8 @@ import { getAllBooks } from "../modules/getAllBooks";
 import myLibraryIMG from "../images/myLibraryIMG.jpg";
 import { bookDelete } from "../lib/commonAPI";
 import { withRouter } from "react-router-dom";
+import DeleteConfirmModal from "../components/DeleteConfirmModal";
+import { modalBG } from "../modules/modalBG";
 
 const MyLibraryFormWrapper = styled.div`
   width: 100%;
@@ -63,6 +65,8 @@ const MyLibraryForm = ({ history }) => {
 
   const [loggedUserCheck, setLoggedUserCheck] = useState(false);
   const [myLibraryBookLists, setMyLibraryBookLists] = useState(null);
+  const [currentDeleteBookUuid, setCurrentDeleteBookUuid] = useState(null);
+  const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
 
   const loggedUser = useSelector(({ loggedUser }) => ({
     loggedUser: loggedUser.user,
@@ -90,11 +94,20 @@ const MyLibraryForm = ({ history }) => {
     history.push("/WriteReport");
   };
 
-  const deleteBookHandler = (currentDeleteBook) => {
-    const bookUuid = currentDeleteBook.bookUuid;
-    bookDelete({ bookUuid });
-    window.location.replace("/MyLibrary");
-  }
+  const deleteBookConfirmHandler = (currentDeleteBook) => {
+    setCurrentDeleteBookUuid(currentDeleteBook.bookUuid);
+    setDeleteConfirmModal(true);
+    dispatch(modalBG(true));
+  };
+
+  const deleteBookHandler = (bool) => {
+    if (bool) {
+      bookDelete({ bookUuid : currentDeleteBookUuid });
+      window.location.replace("/MyLibrary");
+    }
+    setDeleteConfirmModal(false);
+    dispatch(modalBG(false));
+  };
 
   const renderOrDetails = useMemo(() => {
 
@@ -112,11 +125,12 @@ const MyLibraryForm = ({ history }) => {
                 myLibrary={el}
                 key={uuidv4()}
                 writeReportHandler={writeReportHandler}
-                deleteBookHandler={deleteBookHandler}
+                deleteBookConfirmHandler={deleteBookConfirmHandler}
               />
             ))}
           </div>
         </section>
+        {deleteConfirmModal && <DeleteConfirmModal deleteBookHandler ={deleteBookHandler}/>}
       </>
     ) : loggedUser && !myLibraryBookLists ? (
       <span className="noBookMessage">책을 등록해주세요!</span>
@@ -125,7 +139,7 @@ const MyLibraryForm = ({ history }) => {
         <span className="plzSignInMessage">로그인을 해주세요.</span>
       )
     );
-  }, [loggedUser, myLibraryBookLists, loggedUserCheck]);
+  }, [loggedUser, myLibraryBookLists, loggedUserCheck, deleteConfirmModal]);
 
   return <MyLibraryFormWrapper>{renderOrDetails}</MyLibraryFormWrapper>;
 };
