@@ -107,7 +107,7 @@ const BookListWrapper = styled.div`
 `;
 
 
-const MyBookList = ({ myLibrary, writeReportHandler, deleteBookHandler }) => {
+const MyBookList = ({ myLibrary, writeReportHandler, deleteBookConfirmHandler }) => {
 
   const [clickedViewMore , setClickViewMore] = useState(false);
 
@@ -124,7 +124,7 @@ const MyBookList = ({ myLibrary, writeReportHandler, deleteBookHandler }) => {
       </button>
       <div className={clickedViewMore ? "openList" : "closeList"}>
         <Link to="/WriteReport" onClick={() => writeReportHandler(myLibrary)}>독후감 작성하기</Link>
-        <span onClick={() => { deleteBookHandler(myLibrary); setClickViewMore(false)}}>책 제거</span>
+        <span onClick={() => { deleteBookConfirmHandler(myLibrary); setClickViewMore(false)}}>책 제거</span>
       </div>
     </BookListWrapper>
   );
