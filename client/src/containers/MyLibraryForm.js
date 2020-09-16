@@ -91,6 +91,16 @@ const MyLibraryForm = ({ history }) => {
         bookRate: item.bookRate,
       })
     );
+    localStorage.setItem(
+      "writeReportBookInfo",
+      JSON.stringify({
+        bookUuid: item.bookUuid,
+        bookTitle: item.bookTitle,
+        bookAuthor: item.bookAuthor,
+        bookImage: item.bookImage,
+        bookRate: item.bookRate,
+      })
+    );
     history.push("/WriteReport");
   };
 
