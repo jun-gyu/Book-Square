@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from 'styled-components';
 import { useDispatch, useSelector } from "react-redux";
-import bookIMG from "../images/book.png";
+import writeReportBG from "../images/writeReportBG.png";
 import { Rate } from "antd";
 import ReportList from "../components/ReportList";
 import DeleteConfirmModal from "../components/DeleteConfirmModal";
@@ -21,15 +21,17 @@ const WriteReportWrapper = styled.div`
   &::before {
     content: "";
     position: absolute;
-    bottom: 0;
+    bottom: 7%;
     right: 0;
-    width: 650px;
-    height: 700px;
-    background: url(${bookIMG}) no-repeat 50% 50% / 150% 110%;
+    width: 300px;
+    height: 300px;
+    background: url(${writeReportBG}) no-repeat 50% 50% / 150% 110%;
+    z-index: -1;
+    opacity: 0.5;
     transform: rotate(25deg);
   }
   & > div {
-    width: 80%;
+    width: 100%;
     height: 100%;
     padding: 70px 0 0 50px;
     display: flex;
@@ -39,10 +41,48 @@ const WriteReportWrapper = styled.div`
     }
     & > .leftPart {
       margin-right: 50px;
-      width: 60%;
+      width: 50%;
       height: 90%;
+      overflow-y: auto;
+      padding: 0 20px 20px 0;
+      & > .noReportMessage {
+        display: block;
+        font-size: 20px;
+        margin-top: 30px;
+        color: #777;
+        text-align: left;
+      }
+      & > div {
+        display: flex;
+        align-items: center;
+        & > textarea {
+          width: 80%;
+          height: 150px;
+          resize: none;
+          border: 2px solid #e91e63;
+          border-radius: 10px;
+          padding: 3%;
+          font-size: 20px;
+          outline: none;
+          &::placeholder {
+            font-size: 16px;
+          }
+        }
+        & > button {
+          background: none;
+          border: none;
+          outline: none;
+          font-size: 20px;
+          color: #e91e63;
+          font-weight: 600;
+          width: 20%;
+          cursor: pointer;
+          margin-top: 1%;
+        }
+      }
     }
     & > .rightPart {
+      width: 50%;
       & > * {
         display: block;
         margin: 0 auto;
@@ -67,13 +107,14 @@ const WriteReportWrapper = styled.div`
   }
 `;
 
-const WriteReport = () => {
+const WriteReportForm = () => {
 
   const dispatch = useDispatch();
   const [writeReportClicked, setWriteReportClicked] = useState(false);
   const [bookReport, setBookReport] = useState([]);
   const [deleteReportUuid, setDeleteReportUuid] = useState(null);
   const [deleteConfirmModal, setDeleteConfirmModal] = useState(false);
+  const [textAreaValue, setTextAreaValue] = useState("");
 
   let writeReportBookInfo = JSON.parse(localStorage.getItem("writeReportBookInfo"));
 
@@ -86,26 +127,26 @@ const WriteReport = () => {
       });
   }, [writeReportClicked, deleteConfirmModal]);
 
-  // const onChangeReportValue = (e) => {
-  //   setReportValue(e.target.value);
-  // }
 
   const NewReportSaveHandler = () => {
-    let reportMemo = document.querySelector(".writeReportInput").value;
     let reportUuid = uuidv4();
     newReportSave({
       bookUuid: writeReportBookInfo.bookUuid,
       reportUuid,
-      reportMemo
+      reportMemo: textAreaValue
     }).then((data) => setWriteReportClicked(false));
+    setTextAreaValue("");
   };
+
+  const onChangeTextArea = (e) => {
+    setTextAreaValue(e.target.value);
+  }
 
   const reportUpdateHandler = (reportList, reportValue) => {
     const currentBookReportLists = JSON.parse(localStorage.getItem("currentBookReportLists"));
     const updateReport = currentBookReportLists.filter((item) => {
       let result = [];
       if (item.reportUuid === reportList.reportUuid) {
-        console.log(reportValue);
         item.reportMemo = reportValue;
         result.push(item);
       }else {
@@ -113,7 +154,6 @@ const WriteReport = () => {
       }
       return result;
     });
-    console.log(updateReport)
     localStorage.setItem("currentBookReportLists", JSON.stringify(updateReport));
     setBookReport(JSON.parse(localStorage.getItem("currentBookReportLists")));
     reportUpdateSave({ reportUuid: reportList.reportUuid, reportMemo: reportValue });
@@ -140,16 +180,10 @@ const WriteReport = () => {
     <WriteReportWrapper>
       <div>
         <section className="leftPart">
-          <textarea
-            placeholder="여기에 독후감을 작성해주세요!"
-            className="writeReportInput"
-          />
-          <button
-            className="saveReport reportBtn"
-            onClick={() => NewReportSaveHandler()}
-          >
-            저장
-          </button>
+          <div>
+            <textarea placeholder="이 곳에 독후감을 작성해주세요!" value={textAreaValue} onChange={(e) => onChangeTextArea(e)}/>
+            <button onClick={() => NewReportSaveHandler()}>저장</button>
+          </div>
           {bookReport.length > 0 ? (
             bookReport.map((el) => (
               <ReportList
@@ -160,7 +194,7 @@ const WriteReport = () => {
               />
             ))
           ) : (
-            <span>작성한 독후감이 없습니다</span>
+            <strong className="noReportMessage">아직 작성한 독후감이 없습니다!</strong>
           )}
         </section>
         <section className="rightPart">
@@ -183,4 +217,4 @@ const WriteReport = () => {
   );
 };
 
-export default WriteReport;
+export default WriteReportForm;

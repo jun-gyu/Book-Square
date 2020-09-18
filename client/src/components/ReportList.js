@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { FaPencilAlt, FaCheck } from "react-icons/fa";
+import { useEffect } from "react";
 
 const ReportListsWrapper = styled.div`
   position: relative;
@@ -9,23 +10,8 @@ const ReportListsWrapper = styled.div`
   background: #f5f5f5;
   border-radius: 10px;
   margin-top: 3%;
-  height: 150px;
+  height: 100px;
   box-sizing: border-box;
-  .reportMessage {
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 16px;
-    font-weight: 600;
-    width: 70%;
-    display: block;
-  }
-  .registrationDate {
-    position: absolute;
-    bottom: 3%;
-    right: 3%;
-  }
   .modified,
   .deleteReport,
   .saveReportModified {
@@ -38,6 +24,7 @@ const ReportListsWrapper = styled.div`
     outline: none;
     width: 20px;
     height: 20px;
+    margin-bottom: 15px;
     & > svg {
       width: 100%;
       height: 100%;
@@ -63,6 +50,7 @@ const ReportListsWrapper = styled.div`
     font-weight: 500;
     padding: 2%;
     border-radius: 10px;
+    text-overflow: ellipsis;
     &.editing {
       box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.28);
     }
@@ -70,28 +58,34 @@ const ReportListsWrapper = styled.div`
 `;
 
 const ReportList = ({ reportList, reportUpdateHandler, deleteReportHandler }) => {
-  console.log(reportList)
   const [clickReportModified, setClickReportModified] = useState(true);
+  const [input, setInput] = useState("");
+
+  useEffect(() => {
+    setInput(reportList.reportMemo)
+  },[])
 
   const inputReadOnlyHandler = () => {
-    const inputEl = document.querySelector(".reportListTemp");
     setClickReportModified(clickReportModified ? false : true);
-    console.log(inputEl);
-    inputEl.value = inputEl.getAttribute("placeholder");
   };
+
+  const onChangeHandler = (e) => {
+    setInput(e.target.value);
+  }
 
   const reportSave = () => {
     setClickReportModified(clickReportModified ? false : true);
-    const inputEl = document.querySelector(".reportListTemp").value;
-    console.log(inputEl)
-    reportUpdateHandler(reportList, inputEl);
+    reportUpdateHandler(reportList, input);
+    setInput("");
   };
 
   return (
     <ReportListsWrapper>
       <input
         type="text"
-        placeholder={reportList.reportMemo}
+        // placeholder={reportList.reportMemo}
+        value={input}
+        onChange={(e) => onChangeHandler(e)}
         className={
           clickReportModified ? "reportListTemp" : "reportListTemp editing"
         }
@@ -107,9 +101,7 @@ const ReportList = ({ reportList, reportUpdateHandler, deleteReportHandler }) =>
       )}
       <RiDeleteBin6Line
         className="deleteReport"
-        onClick={() =>
-          deleteReportHandler(reportList.reportUuid)
-        }
+        onClick={() => deleteReportHandler(reportList.reportUuid)}
       />
     </ReportListsWrapper>
   );
