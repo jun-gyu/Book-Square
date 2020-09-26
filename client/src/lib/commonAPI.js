@@ -62,6 +62,11 @@ export const howManyWriteReport = () =>
 
 // 유저 이름 변경
 export const modifyName = ({ name }) => 
-  axios.post("http://localhost:3002/users/modifyName", { name }, {
+  axios.put("http://localhost:3002/users/modifyName", { name }, {
     headers: { "auth-token": JSON.parse(localStorage.getItem("user")).token },
-  })
+  });
+
+// 베스트셀러
+export const bestSeller = ({ key }) =>
+  axios.get(`http://book.interpark.com/api/bestSeller.api?key=${key}&categoryId=100&output=json`)
+    .then((data) => console.log(data));

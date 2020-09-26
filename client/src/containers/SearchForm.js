@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import SearchPageAni from '../components/SearchPageAni';
 import searchIMG from '../images/searchIMG.png';
 import axios from 'axios';
-import { KAKAO_API_KEY } from '../kakaoAPI';
+import { KAKAO_API_KEY } from "../REST_API_KEY";
 import SearchBookList from '../components/SearchBookList';
 import { v4 as uuidv4 } from "uuid";
 import { useDispatch } from "react-redux";

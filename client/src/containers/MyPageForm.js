@@ -53,18 +53,23 @@ const MyPageFormWrapper = styled.div`
 `;
 
 const MyPageForm = () => {
-  const [userName, setUserName] = useState(
-    JSON.parse(localStorage.getItem("user")).name
-  );
+  const [userName, setUserName] = useState(JSON.parse(localStorage.getItem("user")).name);
   const [clickModifyName, setclickModifyName] = useState(false);
   const [input, setInput] = useState("");
+  let userInfo = JSON.parse(localStorage.getItem("user"));
 
   const onChangeHandler = (e) => {
     setInput(e.target.value);
   };
 
   const submitModifyName = () => {
-    setclickModifyName(false);
+    modifyName(input).then(data => {
+      userInfo.name = input;
+      localStorage.removeItem("user");
+      localStorage.setItem("user", JSON.stringify(userInfo));
+      setclickModifyName(false);
+      window.location.replace("/MyPage");
+    });
   };
 
   return (
