@@ -121,7 +121,6 @@ const HeaderNav = () => {
       <section className="navLinkSection">
         <Link to="/SearchBooks">검색</Link>
         <Link to="/MyLibrary">내 서재</Link>
-        <Link to="/MyReport">내 독후감</Link>
         <Link to="/DiscussionRoom">토론 방</Link>
         <Link to="/MyPage">마이페이지</Link>
       </section>

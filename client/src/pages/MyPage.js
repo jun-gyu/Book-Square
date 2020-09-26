@@ -4,7 +4,7 @@ import MainTemplate from "../components/MainTemplate";
 const MyPage = () => {
   return (
     <MainTemplate>
-      마이 페이지
+      마이페이지
     </MainTemplate>
   );
 };
