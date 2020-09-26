@@ -48,3 +48,20 @@ export const reportDelete = ({ reportUuid }) =>
     headers: { "auth-token": JSON.parse(localStorage.getItem("user")).token },
   });
 
+// 독후감이 있는 책만 불러오기
+export const theBooksWithReport = () =>
+  axios.get("http://localhost:3002/report/theBooksWithReport", {
+    headers: { "auth-token": JSON.parse(localStorage.getItem("user")).token },
+  });
+
+// 독후감 많은 순서로 정렬
+export const howManyWriteReport = () =>
+  axios.get("http://localhost:3002/report/howManyWriteReport", {
+    headers: { "auth-token": JSON.parse(localStorage.getItem("user")).token },
+  });
+
+// 유저 이름 변경
+export const modifyName = ({ name }) => 
+  axios.post("http://localhost:3002/users/modifyName", { name }, {
+    headers: { "auth-token": JSON.parse(localStorage.getItem("user")).token },
+  })

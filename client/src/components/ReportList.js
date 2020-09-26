@@ -83,7 +83,6 @@ const ReportList = ({ reportList, reportUpdateHandler, deleteReportHandler }) =>
     <ReportListsWrapper>
       <input
         type="text"
-        // placeholder={reportList.reportMemo}
         value={input}
         onChange={(e) => onChangeHandler(e)}
         className={
