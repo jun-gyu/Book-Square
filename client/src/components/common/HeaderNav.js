@@ -9,13 +9,12 @@ import { signOut } from "../../modules/auth";
 const HeaderNavWrapper = styled.div`
   width: 100%;
   height: 80px;
-  padding-top: 20px;
   font-family: inherit;
   position: relative;
   .logoIMG {
     width: 180px;
     height: 100%;
-    background: url(${logoIMG}) no-repeat 50% 10% / 140% 160%;
+    background: url(${logoIMG}) no-repeat 50% 50% / 120% 190%;
     font-size: 0;
     display: inline-block;
     & > a {display: block; width: 100%; height: 100%;}
@@ -122,7 +121,6 @@ const HeaderNav = () => {
       <section className="navLinkSection">
         <Link to="/SearchBooks">검색</Link>
         <Link to="/MyLibrary">내 서재</Link>
-        <Link to="/MyReport">내 독후감</Link>
         <Link to="/DiscussionRoom">토론 방</Link>
         <Link to="/MyPage">마이페이지</Link>
       </section>

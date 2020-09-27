@@ -1,13 +1,13 @@
 import React from 'react';
+import WriteReportForm from '../containers/WriteReportForm';
 import MainTemplate from "../components/MainTemplate";
-import MyPageForm from '../containers/MyPageForm';
 
-const MyPage = () => {
+const WriteReport = () => {
   return (
     <MainTemplate>
-      <MyPageForm />
+      <WriteReportForm />
     </MainTemplate>
   );
 };
 
-export default MyPage;
+export default WriteReport;

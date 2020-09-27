@@ -62,8 +62,11 @@ const initialState = {
   auth: null,
   authError: null,
   signUpSuccess: false,
+  signInSuccess: false,
 };
 
+
+// 리듀서
 const auth = handleActions(
   {
     [CHANGE_FIELD]: (state, { payload: { form, key, value } }) =>
@@ -92,6 +95,7 @@ const auth = handleActions(
       ...state,
       authError: null,
       auth,
+      signInSuccess: true,
     }),
     // 로그인 실패
     [SIGNIN_FAILURE]: (state, { payload: error }) => ({
