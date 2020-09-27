@@ -125,7 +125,7 @@ const WriteReportForm = () => {
         setBookReport(JSON.parse(localStorage.getItem("currentBookReportLists")));
         setWriteReportClicked(true);
       });
-  }, [writeReportClicked, deleteConfirmModal]);
+  }, [writeReportClicked, deleteConfirmModal, textAreaValue]);
 
 
   const NewReportSaveHandler = () => {

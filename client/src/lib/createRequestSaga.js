@@ -3,7 +3,6 @@ import { startLoading, finishLoading } from "../modules/loading";
 
 // 각 요청마다 액션 타입을 세개씩 선언해야 하는 것은 반복 작업니므로 액션 타입을 한꺼번에 만드는 함수를 선언. 예)SIGNUP_SUCCESS
 export const createRequestActionTypes = (type) => {
-  console.log('sagaType', type);
   const SUCCESS = `${type}_SUCCESS`;
   const FAILURE = `${type}_FAILURE`;
   return [type, SUCCESS, FAILURE];

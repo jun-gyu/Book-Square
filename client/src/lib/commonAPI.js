@@ -66,7 +66,6 @@ export const modifyName = ({ name }) =>
     headers: { "auth-token": JSON.parse(localStorage.getItem("user")).token },
   });
 
-// 베스트셀러
-export const bestSeller = ({ key }) =>
-  axios.get(`http://book.interpark.com/api/bestSeller.api?key=${key}&categoryId=100&output=json`)
-    .then((data) => console.log(data));
+// 카테고리 설정
+export const categorySearch = (select) =>
+  axios.post("http://localhost:3002/categorySearch", {select});
