@@ -14,7 +14,7 @@ const HeaderNavWrapper = styled.div`
   .logoIMG {
     width: 180px;
     height: 100%;
-    background: url(${logoIMG}) no-repeat 50% 50% / 120% 190%;
+    background: url(${logoIMG}) no-repeat 50% 50% / 120% 280%;
     font-size: 0;
     display: inline-block;
     & > a {display: block; width: 100%; height: 100%;}
