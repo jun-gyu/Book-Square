@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const passport = require("passport");
+const categorySearch = require("./routes/api/categorySearch");
 const cors = require("cors");
 
 // 초기화 파트
@@ -37,6 +38,7 @@ require("./config/passport")(passport);
 
 // 라우팅 파트
 app.use("/users", users);
+app.use("/categorySearch", categorySearch);
 
 // 서버 실행
 app.listen(3002, (req, res) => {
