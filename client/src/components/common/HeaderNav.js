@@ -126,11 +126,11 @@ const HeaderNav = () => {
       </section>
       <section className="authSection">
         {loggedUser ? (
-          <Link to="/" onClick={() => onSignOutHandler()}>Sign Out</Link>
+          <Link to="/" onClick={() => onSignOutHandler()}>로그아웃</Link>
         ) : (
           <>
-            <Link to="/SignIn">Sign In</Link>
-            <Link to="/SignUp">Sign Up</Link>
+            <Link to="/SignIn">로그인</Link>
+            <Link to="/SignUp">회원가입</Link>
           </>
         )}
       </section>
