@@ -20,12 +20,6 @@ const MainPageCategoryWrapper = styled.div`
     display: flex;
     justify-content: space-around;
     flex-direction: row;
-    /* & > strong,
-    & > button {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    } */
     & > button {
       display: flex;
       justify-content: center;
