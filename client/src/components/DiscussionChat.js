@@ -29,8 +29,8 @@ const DiscussionChatWrapper = styled.div`
   }
 `;
 
-const DiscussionChat = (chatInfo) => {
-  const {bookTitle, message, name} = chatInfo.chatInfo;
+const DiscussionChat = (chatItem) => {
+  const {bookTitle, message, name} = chatItem.chatItem;
   return (
     <DiscussionChatWrapper>
       <Avatar

@@ -6,7 +6,7 @@ import { RiMailSendLine } from 'react-icons/ri';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 import { v4 as uuidv4 } from "uuid";
 
-// const socket = io.connect("http://localhost:3100");
+const socket = io.connect("http://localhost:3100");
 
 
 const DiscussionRoomFormWrapper = styled.div`
@@ -117,9 +117,9 @@ const DiscussionRoomForm = () => {
 
   useEffect(() => {
     socket.on("message", ({ name, bookTitle, message }) => {
-      setChatInfo([...chat, { name, bookTitle, message }]);
+      setChat([...chat, { name, bookTitle, message }]);
     });
-  });
+  }, [chat]);
 
   const onTextChange = (e) => {
     setChatInfo({ ...chatInfo, [e.target.name]: e.target.value });
@@ -137,7 +137,9 @@ const DiscussionRoomForm = () => {
     <DiscussionRoomFormWrapper>
       <strong>Discussion Room</strong>
       <div className="renderChat">
-        {chat.map((chatItem) => <DiscussionChat key={uuidv4()} chatInfo={chatInfo} />)}
+        {chat.map((chatItem) => (
+          <DiscussionChat key={uuidv4()} chatItem={chatItem} />
+        ))}
       </div>
       <div className="chatInput">
         <strong>Messanger</strong>
